@@ -141,7 +141,7 @@ function makeSimpleBarplot(containerId, dataDict, options={}){
     } = options;
 
     const labels = Object.keys(dataDict);
-    const hoverTemplate = `%{x:.2f} – %{y:.2f} ${hoverStr}<extra></extra>`
+    const hoverTemplate = `%{x} – %{y} ${hoverStr}<extra></extra>`
 
     const traces = labels.map(label => {
         const coords = dataDict[label];  // [min, max]
