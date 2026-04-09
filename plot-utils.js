@@ -124,8 +124,98 @@ function makeMultiLinePlot(containerId, data, groups, labelMapping, {
     Plotly.react(containerId, traces, layout, {responsive:true});
 }
 
+function makeSimpleBarplot(containerId, dataDict, options={}){
+    // the following can be edited externally through the options variable
+    const {
+        orientation = 'h',              // bar orientation ('h' or 'v')
+        title = '',
+        referenceLines = [],            // num array for vertical (h) or horizontal (v) dashed lines
+        highlightLabel = '',            // optionally highlight bars that include this string
+        highlightClr = PALETTE[0],      // color for highlighted bars
+        barClr = PALETTE[1],            // default bar color
+        xRange = null,                  // [min, max] for x-axis
+        yRange = null,                  // [min, max] for y-axis
+        xLabel = '',
+        yLabel = '',
+        hoverStr = '',                  // shows min-max
+    } = options;
+
+    const labels = Object.keys(dataDict);
+    const hoverTemplate = `%{x:.2f} – %{y:.2f} ${hoverStr}<extra></extra>`
+
+    const traces = labels.map(label => {
+        const coords = dataDict[label];  // [min, max]
+        const isHighlight = highlightLabel && label.includes(highlightLabel);
+        if (orientation === 'h') {
+            return {
+                x: coords,  // [min, max]
+                y: [label, label],
+                mode: 'lines',
+                line: { width: 8, color: isHighlight ? highlightClr : barClr },
+                showlegend: false,
+                hovertemplate: hoverTemplate.replace('%{x}', coords[0]).replace('%{y}', coords[1])
+            };
+        } else {
+            return {
+                x: [label, label],
+                y: coords,
+                mode: 'lines',
+                line: { width: 10, color: isHighlight ? highlightClr : barClr },
+                showlegend: false,
+                hovertemplate: hoverTemplate.replace('%{x}', coords[0]).replace('%{y}', coords[1])
+            };
+        }
+    });
+
+    // add reference lines
+    const shapes = referenceLines.map(val => orientation === 'h'
+        ? { type: 'line', x0: val, x1: val, y0: -0.5, y1: labels.length - 0.5, line: { color: 'grey', width: 1, dash: 'dash' } }
+        : { type: 'line', x0: -0.5, x1: labels.length - 0.5, y0: val, y1: val, line: { color: 'grey', width: 1, dash: 'dash' } }
+    );
+
+    const layout = {
+            title: title,
+            xaxis: orientation === 'h' 
+                ? { 
+                    range: xRange,
+                    title:{text:xLabel, font:{size:16, family:"Arial, sans-serif"}},
+                    tickfont:{size:16, family:"Arial, sans-serif"}, 
+                 } 
+                : { 
+                    categoryorder: "array", 
+                    categoryarray: labels, 
+                    range: xRange,
+                    title:{text:xLabel, font:{size:16, family:"Arial, sans-serif"}},
+                    tickfont:{size:16, family:"Arial, sans-serif"}, 
+                 },
+            yaxis: orientation === 'h' 
+                ? { 
+                    categoryorder: "array", 
+                    categoryarray: labels, 
+                    range: yRange,
+                    title:{text:yLabel, font:{size:16, family:"Arial, sans-serif"}},
+                    tickfont:{size:16, family:"Arial, sans-serif"}, 
+                 } 
+                : { 
+                    range: yRange,
+                    title:{text:yLabel, font:{size:16, family:"Arial, sans-serif"}},
+                    tickfont:{size:16, family:"Arial, sans-serif"}, 
+                 },
+            shapes: shapes,
+            margin: { t: 40, b: 40, l: 150, r: 40 },
+            plot_bgcolor: 'white'
+        };
+
+    // reactive rendering: will create a new plot if container empty, or update if exists
+    if (document.getElementById(containerId).data) {
+        Plotly.react(containerId, traces, layout, {responsive: true});
+    } else {
+        Plotly.newPlot(containerId, traces, layout, {responsive: true});
+    }
+}
 
 function makeBarPlot(containerId, data, group, {femaleHoverName, maleHoverName, plotTitle, ylabel}) {
+      // legacy code - not used atm
       const female_trace = {
         x: data[group].x.map(String),
         y: data[group].female,
