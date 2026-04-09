@@ -1,0 +1,29 @@
+.panel-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+.chart-pane {
+  display: none;
+}
+.chart-pane.active {
+  display: block;
+}
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  cursor: pointer;
+  background: #f2f2f2;
+  border-radius: 50%;
+  padding: 8px 14px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  user-select: none;
+}
+.nav-button:hover {
+  background: #e0e0e0;
+}
+#prevBtn {left: -50px;}
+#nextBtn {right: -50px;}
