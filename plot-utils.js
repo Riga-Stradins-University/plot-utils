@@ -202,7 +202,7 @@ function makeSimpleBarplot(containerId, dataDict, options={}){
                     tickfont:{size:16, family:"Arial, sans-serif"}, 
                  },
             shapes: shapes,
-            margin: { t: 40, b: 100, l: 150, r: 40 },
+            margin: { t: 40, b: 80, l: 150, r: 40 },
             plot_bgcolor: 'white'
         };
 
