@@ -127,6 +127,8 @@ function makeMultiLinePlot(containerId, data, groups, labelMapping, {
             yref: "paper",
             showarrow: false,
             text: `● ${tr.name}`,
+            xanchor: "left",
+            align: "left",
             font: {
                 size: 16,
                 color: tr.line?.color || "#000",
