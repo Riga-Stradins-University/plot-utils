@@ -117,8 +117,24 @@ function makeMultiLinePlot(containerId, data, groups, labelMapping, {
             tickfont:{size:16, family:"Arial, sans-serif"}, 
             range:yRange
         },
-        legend: legendLayout,
+        // legend: legendLayout,
+        showlegend: false,
+
+        annotations: traces.map((tr, i) => ({
+            x: 0.02,
+            y: 0.98 - i * 0.06,
+            xref: "paper",
+            yref: "paper",
+            showarrow: false,
+            text: `● ${tr.name}`,
+            font: {
+                size: 16,
+                color: tr.line?.color || "#000",
+                family: "Arial, sans-serif"
+            }
+        }))
     };
+    
     
     Plotly.react(containerId, traces, layout, {responsive:true});
 }
