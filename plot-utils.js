@@ -86,18 +86,24 @@ function makeMultiLinePlot(containerId, data, groups, labelMapping, {
 
     // deal with the legend
     if (traces.length > 1) {
-        legendLayout = {
-            orientation: 'v',          // horizontal
-            x: 0.1,                    // center horizontally
-            y: 0.98,                   // just below the title
-            xanchor: 'left',
-            yanchor: 'top',
-            font: {size: 16, family: "Arial, sans-serif", color: "#000"},
-            traceorder: 'normal',   
-        };
+        annotLayout = traces.map((tr, i) => ({
+            x: 0.02,
+            y: 0.98 - i * 0.06,
+            xref: "paper",
+            yref: "paper",
+            showarrow: false,
+            text: `● ${tr.name}`,
+            xanchor: "left",
+            align: "left",
+            font: {
+                size: 16,
+                color: tr.line?.color || "#000",
+                family: "Arial, sans-serif"
+            }
+        }));
     } else {
         // hide legend if only one trace
-        legendLayout = {visible: false};
+        annotLayout = [];
     }
 
     const xVals = Array.from(allX).sort();
@@ -120,21 +126,7 @@ function makeMultiLinePlot(containerId, data, groups, labelMapping, {
         // legend: legendLayout,
         showlegend: false,
 
-        annotations: traces.map((tr, i) => ({
-            x: 0.02,
-            y: 0.98 - i * 0.06,
-            xref: "paper",
-            yref: "paper",
-            showarrow: false,
-            text: `● ${tr.name}`,
-            xanchor: "left",
-            align: "left",
-            font: {
-                size: 16,
-                color: tr.line?.color || "#000",
-                family: "Arial, sans-serif"
-            }
-        }))
+        annotations: annotLayout
     };
     
     
