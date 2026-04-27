@@ -89,12 +89,11 @@ function makeMultiLinePlot(containerId, data, groups, labelMapping, {
         legendLayout = {
             orientation: 'v',          // horizontal
             x: 0.1,                    // center horizontally
-            y: 1,                   // just below the title
+            y: 0.98,                   // just below the title
             xanchor: 'left',
-            yanchor: 'bottom',
+            yanchor: 'top',
             font: {size: 16, family: "Arial, sans-serif", color: "#000"},
             traceorder: 'normal',   
-            itemwidth: 50,      
         };
     } else {
         // hide legend if only one trace
