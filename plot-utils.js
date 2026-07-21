@@ -293,3 +293,56 @@ function subsetLabelsByData(data, labels) {
         .map(key => [key, labels[key]])
     );
 }
+
+function makeStackedAreaPlot(
+                containerId,
+                data,
+                plotTitle, xLabel, yLabel
+            ){
+    // define plot layout
+    const layout = {
+      title: {
+      text: plotTitle, //"Waste generated, sorted, and recycled at RSU",
+      font: { size: 18, family: "Arial, sans-serif", color: "#000" }
+        },
+    xaxis: {
+      title: {
+        text: xLabel, //"Year",
+        font: { size: 18, family: "Arial, sans-serif", color: "#000" }
+      },
+      type: "category",
+      tickfont: { size: 16, family: "Arial, sans-serif" }
+    },
+    yaxis: {
+      title: {
+        text: yLabel, //"Amount of waste (tonnes)",
+        font: { size: 18, family: "Arial, sans-serif", color: "#000" }
+      },
+      tickfont: { size: 16, family: "Arial, sans-serif" },
+      range: [0,800]
+    },
+    legend: { 
+      orientation: "h", // one row
+      x: 0.5,
+      y: 1.05,
+      xanchor: "center",
+      yanchor: "top",
+      font: { size: 16, family: "Arial, sans-serif", color: "#000" }
+    },
+    hoverlabel: {
+      font: {
+        size: 16,          
+        family: "Arial, sans-serif",
+        color: "#000000"
+      },
+      bgcolor: "#ffffff",   // optional: background color of hover box
+      bordercolor: "#cccccc" // optional: border color of hover box
+    }
+  };
+
+  Plotly.newPlot(
+    containerId, 
+    data,  
+    layout, {responsive: true}
+    );
+            }
